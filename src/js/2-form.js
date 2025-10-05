@@ -28,10 +28,11 @@ form.addEventListener('submit', (event) => {
 	event.preventDefault();
 
 	if (!form.elements.email.value.trim() || !form.elements.message.value.trim()) {
-		alert("Error parsing saved data");
+		alert("Fill please all fields");
 		return;
 	}
 
+	console.log("Form Data:", formData);
 	localStorage.removeItem(STORAGE_KEY);
 	form.reset();
 });
