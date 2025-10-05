@@ -78,9 +78,9 @@ const listHTML = images
 			</li>`
 	).join("");
 
-const allListHTML = `<ul class="gallery">${listHTML}</ul>`;
-const container = document.querySelector(".container");
-container.insertAdjacentHTML("beforeend", allListHTML);
+
+const gallery = document.querySelector(".gallery");
+gallery.insertAdjacentHTML("beforeend", listHTML);
 
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
@@ -92,7 +92,6 @@ const lightbox = new SimpleLightbox('.gallery a', {
 	close: true,
 });
 
-const gallery = document.querySelector(".gallery");
 gallery.style.cssText = `
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
