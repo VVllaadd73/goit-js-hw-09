@@ -89,6 +89,7 @@ const lightbox = new SimpleLightbox('.gallery a', {
 	captions: true,
 	captionsData: 'alt',
 	captionDelay: 250,
+	close: true,
 });
 
 const gallery = document.querySelector(".gallery");
@@ -101,7 +102,25 @@ gallery.style.cssText = `
 	padding: 24px;
 	margin: 0 auto;
 	max-width: calc(3 * 360px + 2 * 24px);
+	overflow: hidden;
 `;
+
+// Вираховуємо ширину скролбару
+const getScrollbarWidth = () => {
+	return window.innerWidth - document.documentElement.clientWidth;
+};
+
+// Подія відкриття модалки
+lightbox.on('show.simplelightbox', () => {
+	document.body.classList.add("modal-open");
+	document.body.style.paddingRight = `${getScrollbarWidth()}px`; // компенсуємо пропажу скролу
+});
+
+// Подія закриття модалки
+lightbox.on('close.simplelightbox', () => {
+	document.body.classList.remove("modal-open");
+	document.body.style.paddingRight = "";
+});
 
 gallery.addEventListener("mouseover", (event) => {
 	if (event.target.classList.contains("gallery-image")) {
