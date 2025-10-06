@@ -32,9 +32,11 @@ form.addEventListener('submit', (event) => {
 		return;
 	}
 
-	console.log("Form Data:", formData);
+	console.log(formData);
 	localStorage.removeItem(STORAGE_KEY);
 	form.reset();
+	formData.email = '';
+	formData.message = '';
 });
 
 

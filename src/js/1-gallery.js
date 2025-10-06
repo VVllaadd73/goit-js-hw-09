@@ -1,3 +1,6 @@
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 const images = [
 	{
 		preview:
@@ -78,19 +81,30 @@ const listHTML = images
 			</li>`
 	).join("");
 
-
 const gallery = document.querySelector(".gallery");
 gallery.insertAdjacentHTML("beforeend", listHTML);
-
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
 
 const lightbox = new SimpleLightbox('.gallery a', {
 	captions: true,
 	captionsData: 'alt',
 	captionDelay: 250,
-	close: true,
+	close: true, animationSpeed: 300,
+	fadeSpeed: 300,
+	animationSlide: true,
+	scaleImageToRatio: true,
+	className: 'custom-lightbox',
 });
+
+const style = document.createElement('style');
+style.textContent = `
+  .gallery-image {
+    transition: transform 0.3s ease;
+  }
+  .gallery-image:hover {
+    transform: scale(1.05);
+  }
+`;
+document.head.appendChild(style);
 
 gallery.style.cssText = `
 	display: grid;
@@ -104,33 +118,12 @@ gallery.style.cssText = `
 	overflow: hidden;
 `;
 
-// Вираховуємо ширину скролбару
-const getScrollbarWidth = () => {
-	return window.innerWidth - document.documentElement.clientWidth;
-};
-
-// Подія відкриття модалки
 lightbox.on('show.simplelightbox', () => {
 	document.body.classList.add("modal-open");
-	document.body.style.paddingRight = `${getScrollbarWidth()}px`; // компенсуємо пропажу скролу
+	document.body.style.overflow = 'hidden';
 });
 
-// Подія закриття модалки
 lightbox.on('close.simplelightbox', () => {
 	document.body.classList.remove("modal-open");
-	document.body.style.paddingRight = "";
-});
-
-gallery.addEventListener("mouseover", (event) => {
-	if (event.target.classList.contains("gallery-image")) {
-		event.target.style.transform = "scale(1.05)";
-		event.target.style.transition = "transform 0.3s ease";
-		event.target.style.position = "relative";
-	}
-});
-
-gallery.addEventListener("mouseout", event => {
-	if (event.target.classList.contains("gallery-image")) {
-		event.target.style.transform = "scale(1)";
-	}
+	document.body.style.overflow = '';
 });
